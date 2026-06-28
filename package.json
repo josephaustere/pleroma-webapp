@@ -1,23 +1,17 @@
 {
-  "name": "josephaustere",
+  "name": "pleroma-webapp",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Sports activity finder web app",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/josephaustere/azure-media-gallery.git"
-  },
-  "keywords": [],
-  "author": "",
+  "author": "josephaustere",
   "license": "ISC",
   "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/josephaustere/azure-media-gallery/issues"
+  "engines": {
+    "node": "20.x"
   },
-  "homepage": "https://github.com/josephaustere/azure-media-gallery#readme",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "express": "^5.2.1",
