@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Browse Activities - PLEROMA</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <h2>PLEROMA</h2>
+      <p>Play. Connect. Thrive.</p>
+    </div>
+
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="create.html">➕ Create Activity</a>
+    <a href="browse.html">🔍 Browse Activities</a>
+    <a href="my-activities.html">📅 My Activities</a>
+    <a href="requests.html">👥 Requests</a>
+    <a href="chat.html">💬 Chat</a>
+    <a href="profile.html">👤 Profile</a>
+    <a href="/logout">🚪 Logout</a>
+  </div>
+
+  <div class="main-content">
+    <div class="browse-header">
+      <div>
+        <h1>Browse Activities</h1>
+        <p class="subtitle">Discover and join sports activities near you</p>
+      </div>
+      <button onclick="getUserLocation()">📍 Current Location</button>
+    </div>
+
+    <div class="sport-tabs">
+      <button onclick="setSportFilter('')">All Sports</button>
+      <button onclick="setSportFilter('football')">⚽ Football</button>
+      <button onclick="setSportFilter('basketball')">🏀 Basketball</button>
+      <button onclick="setSportFilter('tennis')">🎾 Tennis</button>
+      <button onclick="setSportFilter('running')">🏃 Running</button>
+      <button onclick="setSportFilter('gym')">🏋️ Gym</button>
+    </div>
+
+    <div class="browse-pro-layout">
+      <div class="browse-map-panel">
+        <div id="map"></div>
+
+        <div class="map-status">
+          <h3>📍 Showing activities near your current location</h3>
+          <p id="locationStatus">Click any marker to view activity details.</p>
+        </div>
+      </div>
+
+      <div class="nearby-panel">
+        <h2>Nearby Activities</h2>
+
+        <input type="text" id="searchInput" placeholder="Search activity..." onkeyup="loadActivities()">
+
+        <select id="sportFilter" onchange="loadActivities()" hidden>
+          <option value="">All Sports</option>
+          <option value="football">Football</option>
+          <option value="basketball">Basketball</option>
+          <option value="running">Running</option>
+          <option value="gym">Gym</option>
+          <option value="tennis">Tennis</option>
+        </select>
+
+        <select id="radiusFilter" onchange="loadActivities()">
+          <option value="2">Within 2 km</option>
+          <option value="5" selected>Within 5 km</option>
+          <option value="10">Within 10 km</option>
+          <option value="50">Within 50 km</option>
+        </select>
+
+        <div id="activities" class="activity-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

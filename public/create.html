@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Activity - PLEROMA</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <h2>PLEROMA</h2>
+      <p>Play. Connect. Thrive.</p>
+    </div>
+
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="create.html">➕ Create Activity</a>
+    <a href="browse.html">🔍 Browse Activities</a>
+    <a href="my-activities.html">📅 My Activities</a>
+    <a href="requests.html">👥 Requests</a>
+    <a href="chat.html">💬 Chat</a>
+    <a href="profile.html">👤 Profile</a>
+    <a href="/logout">🚪 Logout</a>
+  </div>
+
+  <div class="main-content">
+    <div class="page-header">
+      <h1>Create Activity</h1>
+      <p class="subtitle">Click the map first, then complete the activity details.</p>
+    </div>
+
+    <div class="browse-layout">
+      <div class="card map-card">
+        <h2>Choose Location</h2>
+        <p>Click anywhere on the map to choose the activity location.</p>
+        <div id="map"></div>
+        <p id="selectedLocationText">No activity location selected.</p>
+      </div>
+
+      <div class="card">
+        <h2>Activity Details</h2>
+
+        <form id="createActivityForm">
+          <input type="text" id="sportInput" name="sport" placeholder="Sport (e.g. Football)" required>
+
+          <input type="text" id="locationInput" name="location" placeholder="Location will appear after map click" required readonly>
+
+          <input type="datetime-local" id="timeInput" name="time" required>
+
+          <input type="number" id="maxPlayersInput" name="maxPlayers" placeholder="Max Players" min="1" max="100" required>
+
+          <input type="hidden" id="latitudeInput" name="latitude">
+          <input type="hidden" id="longitudeInput" name="longitude">
+
+          <button type="submit">Create Activity</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

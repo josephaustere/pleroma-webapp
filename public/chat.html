@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat - PLEROMA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <h2>PLEROMA</h2>
+      <p>Play. Connect. Thrive.</p>
+    </div>
+
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="create.html">➕ Create Activity</a>
+    <a href="browse.html">🔍 Browse Activities</a>
+    <a href="my-activities.html">📅 My Activities</a>
+    <a href="requests.html">👥 Requests</a>
+    <a href="chat.html">💬 Chat</a>
+    <a href="profile.html">👤 Profile</a>
+    <a href="/logout">🚪 Logout</a>
+  </div>
+
+  <div class="main-content">
+    <div class="page-header">
+      <h1>Live Chat</h1>
+      <p class="subtitle">Message other users instantly in real time.</p>
+    </div>
+
+    <div class="browse-layout">
+      <div class="card">
+        <h2>Users</h2>
+        <div id="userList"></div>
+      </div>
+
+      <div class="card">
+        <h2 id="chatTitle">Select a user</h2>
+        <div id="messages" class="chat-box"></div>
+
+        <div class="chat-input">
+          <input type="text" id="messageInput" placeholder="Type a message...">
+          <button onclick="sendLiveMessage()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

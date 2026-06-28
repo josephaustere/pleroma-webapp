@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile - PLEROMA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <h2>PLEROMA</h2>
+      <p>Play. Connect. Thrive.</p>
+    </div>
+
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="create.html">➕ Create Activity</a>
+    <a href="browse.html">🔍 Browse Activities</a>
+    <a href="my-activities.html">📅 My Activities</a>
+    <a href="requests.html">👥 Requests</a>
+    <a href="chat.html">💬 Chat</a>
+    <a href="profile.html">👤 Profile</a>
+    <a href="/logout">🚪 Logout</a>
+  </div>
+
+  <div class="main-content">
+    <div class="page-header">
+      <h1>My Profile</h1>
+      <p class="subtitle">Manage your PLEROMA identity and activity stats.</p>
+    </div>
+
+    <div class="profile-layout">
+      <div class="profile-card">
+        <div class="profile-avatar">👤</div>
+        <h2 id="profileUsername">Username</h2>
+        <p id="profileBioText">No bio added yet.</p>
+        <p><strong>Favourite Sport:</strong> <span id="profileSportText">Not set</span></p>
+        <p class="rating">⭐ ⭐ ⭐ ⭐ ☆</p>
+      </div>
+
+      <div class="card">
+        <h2>Edit Profile</h2>
+        <input type="text" id="bioInput" placeholder="Write a short bio...">
+        <input type="text" id="favouriteSportInput" placeholder="Favourite sport">
+        <button onclick="saveProfile()">Save Profile</button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Created</h3>
+        <p id="profileCreatedCount">0</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Joined</h3>
+        <p id="profileJoinedCount">0</p>
+      </div>
+
+      <div class="stat-card">
+        <h3>Rating</h3>
+        <p>4.0</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
