@@ -671,135 +671,211 @@ button:hover,
   .profile-layout {
     grid-template-columns: 1fr;
   }
-}@media (max-width: 768px) {
+}
+@media (max-width: 768px) {
+  html,
   body {
+    width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
   }
 
+  body {
+    font-size: 14px;
+  }
+
   .sidebar {
-    position: relative;
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 16px !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .logo {
     width: 100%;
-    height: auto;
-    padding: 18px;
-    display: block;
   }
 
   .logo h2 {
-    font-size: 26px;
+    font-size: 24px;
   }
 
   .logo p {
-    margin-bottom: 18px;
+    margin-bottom: 10px;
   }
 
   .sidebar a {
-    display: inline-block;
-    width: auto;
-    margin: 5px;
-    padding: 10px 12px;
-    font-size: 13px;
+    flex: 1 1 45%;
+    margin: 0 !important;
+    padding: 10px !important;
+    font-size: 12px;
+    text-align: center;
+    justify-content: center;
   }
 
   .main-content {
-    margin-left: 0;
-    padding: 16px;
+    margin-left: 0 !important;
+    padding: 14px !important;
+    width: 100%;
   }
 
   h1 {
-    font-size: 32px;
+    font-size: 28px !important;
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 14px;
   }
 
   .browse-header {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+    align-items: stretch;
+    gap: 12px;
   }
 
   .sport-tabs {
+    display: flex;
     overflow-x: auto;
     flex-wrap: nowrap;
+    gap: 8px;
     padding-bottom: 8px;
   }
 
   .sport-tabs button {
+    flex: 0 0 auto;
+    width: auto !important;
     white-space: nowrap;
-    font-size: 13px;
     padding: 10px 14px;
+    font-size: 12px;
   }
 
   .browse-pro-layout,
   .browse-layout,
   .profile-layout,
   .grid,
-  .stats-grid {
+  .stats-grid,
+  .filter-panel {
+    display: grid !important;
     grid-template-columns: 1fr !important;
+    gap: 14px !important;
   }
 
-  .browse-map-panel #map,
-  #map {
-    height: 360px !important;
+  .browse-map-panel,
+  .nearby-panel,
+  .card,
+  .profile-card,
+  .stat-card {
+    width: 100%;
+    padding: 16px !important;
+    border-radius: 18px !important;
+  }
+
+  #map,
+  .browse-map-panel #map {
+    height: 320px !important;
+    width: 100% !important;
+    min-height: 320px;
   }
 
   .nearby-panel {
-    max-height: none;
-    overflow-y: visible;
+    max-height: none !important;
+    overflow-y: visible !important;
   }
 
   .activity-card-pro {
+    display: grid !important;
     grid-template-columns: 1fr !important;
-    text-align: left;
+    gap: 12px !important;
+    padding: 16px !important;
   }
 
   .activity-icon {
-    width: 54px;
-    height: 54px;
+    width: 52px !important;
+    height: 52px !important;
+    font-size: 26px !important;
+  }
+
+  .activity-info h3 {
+    font-size: 18px;
+  }
+
+  .activity-info p {
+    font-size: 13px;
+    word-break: break-word;
   }
 
   .activity-actions {
-    text-align: left;
+    text-align: left !important;
   }
 
-  .card,
-  .stat-card,
-  .profile-card {
-    padding: 18px;
-    border-radius: 20px;
-  }
-
-  .stat-card p {
-    font-size: 34px;
-  }
-
-  input,
-  select,
   button,
-  .link-button {
-    width: 100%;
-    font-size: 15px;
+  .link-button,
+  input,
+  select {
+    width: 100% !important;
+    max-width: 100%;
+    font-size: 14px !important;
   }
 
   .chat-input {
-    grid-template-columns: 1fr;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
   }
 
   .chat-box {
-    height: 330px;
+    height: 320px !important;
+  }
+
+  .message {
+    word-break: break-word;
+  }
+
+  .landing-page {
+    align-items: flex-start;
+    padding: 12px;
   }
 
   .landing-container {
-    grid-template-columns: 1fr;
-    padding: 18px;
+    width: 100%;
+    grid-template-columns: 1fr !important;
+    gap: 18px;
   }
 
   .landing-left h1 {
-    font-size: 46px;
+    font-size: 42px !important;
   }
 
   .tagline {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .feature-list p {
     width: 100%;
+    font-size: 14px;
+  }
+
+  .landing-right {
+    padding: 18px !important;
+  }
+
+  .auth-box {
+    padding: 16px !important;
+  }
+
+  .profile-avatar {
+    width: 90px;
+    height: 90px;
+    font-size: 44px;
+  }
+
+  .stat-card p {
+    font-size: 32px !important;
   }
 }
