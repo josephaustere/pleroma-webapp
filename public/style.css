@@ -671,4 +671,135 @@ button:hover,
   .profile-layout {
     grid-template-columns: 1fr;
   }
+}@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 18px;
+    display: block;
+  }
+
+  .logo h2 {
+    font-size: 26px;
+  }
+
+  .logo p {
+    margin-bottom: 18px;
+  }
+
+  .sidebar a {
+    display: inline-block;
+    width: auto;
+    margin: 5px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  .browse-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .sport-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+  }
+
+  .sport-tabs button {
+    white-space: nowrap;
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  .browse-pro-layout,
+  .browse-layout,
+  .profile-layout,
+  .grid,
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .browse-map-panel #map,
+  #map {
+    height: 360px !important;
+  }
+
+  .nearby-panel {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .activity-card-pro {
+    grid-template-columns: 1fr !important;
+    text-align: left;
+  }
+
+  .activity-icon {
+    width: 54px;
+    height: 54px;
+  }
+
+  .activity-actions {
+    text-align: left;
+  }
+
+  .card,
+  .stat-card,
+  .profile-card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .stat-card p {
+    font-size: 34px;
+  }
+
+  input,
+  select,
+  button,
+  .link-button {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .chat-input {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-box {
+    height: 330px;
+  }
+
+  .landing-container {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .landing-left h1 {
+    font-size: 46px;
+  }
+
+  .tagline {
+    font-size: 18px;
+  }
+
+  .feature-list p {
+    width: 100%;
+  }
 }
