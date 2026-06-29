@@ -7,7 +7,7 @@ const { Server } = require("socket.io");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const db = new sqlite3.Database("./database.db");
+const db = new sqlite3.Database("/var/data/database.db");
 
 const server = http.createServer(app);
 const io = new Server(server);
