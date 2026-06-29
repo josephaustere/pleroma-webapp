@@ -531,6 +531,7 @@ socket.on("sendMessage", (data) => {
       );
     }
   );
+  });
 });
 
 server.listen(PORT, () => {
