@@ -440,11 +440,20 @@ app.post("/api/requests/:id/:status", requireLogin, (req, res) => {
 });
 
 app.get("/api/users", requireLogin, (req, res) => {
+  const currentUserId = req.session.user.id;
+
   db.all(
-    "SELECT id, username FROM users WHERE id != ?",
-    [req.session.user.id],
+    `
+    SELECT DISTINCT users.id, users.username
+    FROM users
+    JOIN participants p1 ON users.id = p1.userId
+    JOIN participants p2 ON p1.activityId = p2.activityId
+    WHERE p2.userId = ?
+    AND users.id != ?
+    `,
+    [currentUserId, currentUserId],
     (err, rows) => {
-      if (err) return res.status(500).send("Error loading users: " + err.message);
+      if (err) return res.status(500).send("Error loading connected users: " + err.message);
       res.json(rows);
     }
   );
@@ -482,30 +491,46 @@ io.on("connection", (socket) => {
   socket.on("joinChat", (userId) => {
     socket.join(`user_${userId}`);
   });
+socket.on("sendMessage", (data) => {
+  const { senderId, receiverId, message, senderName } = data;
 
-  socket.on("sendMessage", (data) => {
-    const { senderId, receiverId, message, senderName } = data;
-
-    db.run(
-      "INSERT INTO messages (senderId, receiverId, message) VALUES (?, ?, ?)",
-      [senderId, receiverId, message],
-      function (err) {
-        if (err) return;
-
-        const newMessage = {
-          id: this.lastID,
-          senderId,
-          receiverId,
-          message,
-          senderName,
-          createdAt: new Date().toISOString(),
-        };
-
-        io.to(`user_${receiverId}`).emit("newMessage", newMessage);
-        io.to(`user_${senderId}`).emit("newMessage", newMessage);
+  db.get(
+    `
+    SELECT p1.activityId
+    FROM participants p1
+    JOIN participants p2 ON p1.activityId = p2.activityId
+    WHERE p1.userId = ?
+    AND p2.userId = ?
+    LIMIT 1
+    `,
+    [senderId, receiverId],
+    (err, connection) => {
+      if (err || !connection) {
+        socket.emit("messageError", "You can only message users from approved shared activities.");
+        return;
       }
-    );
-  });
+
+      db.run(
+        "INSERT INTO messages (senderId, receiverId, message) VALUES (?, ?, ?)",
+        [senderId, receiverId, message],
+        function (err) {
+          if (err) return;
+
+          const newMessage = {
+            id: this.lastID,
+            senderId,
+            receiverId,
+            message,
+            senderName,
+            createdAt: new Date().toISOString(),
+          };
+
+          io.to(`user_${receiverId}`).emit("newMessage", newMessage);
+          io.to(`user_${senderId}`).emit("newMessage", newMessage);
+        }
+      );
+    }
+  );
 });
 
 server.listen(PORT, () => {

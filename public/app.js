@@ -516,6 +516,9 @@ async function initLiveChat() {
 
   socket = io();
   socket.emit("joinChat", currentUser.id);
+  socket.on("messageError", (message) => {
+  alert(message);
+});
 
   socket.on("newMessage", (message) => {
     if (
