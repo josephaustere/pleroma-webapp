@@ -1,47 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PLEROMA - Welcome</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLEROMA</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="landing-page">
-
-  <div class="landing-container">
-    <div class="landing-left">
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-brand">
       <h1>PLEROMA</h1>
-      <p class="tagline">Find people nearby for sports, fitness, and active moments.</p>
-
-      <div class="feature-list">
-        <p>📍 Discover activities near you</p>
-        <p>⚽ Join sports sessions</p>
-        <p>👥 Connect with like-minded people</p>
-        <p>✅ Organisers approve join requests</p>
-      </div>
+      <p>Find local sports activities, join players nearby, and connect instantly.</p>
     </div>
 
-    <div class="landing-right">
-      <div class="auth-tabs">
-        <div class="auth-box">
-          <h2>Login</h2>
-          <form action="/login" method="POST">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-          </form>
-        </div>
+    <div class="auth-card">
+      <h2>Welcome back</h2>
+      <p class="subtitle">Login to continue</p>
 
-        <div class="auth-box">
-          <h2>Create Account</h2>
-          <form action="/register" method="POST">
-            <input type="text" name="username" placeholder="Choose username" required>
-            <input type="password" name="password" placeholder="Choose password" required>
-            <button type="submit">Register</button>
-          </form>
-        </div>
-      </div>
+      <form action="/login" method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+
+      <div class="divider">New to PLEROMA?</div>
+
+      <form action="/register" method="POST">
+        <input type="text" name="username" placeholder="Create username" required>
+        <input type="password" name="password" placeholder="Create password" required>
+        <button type="submit" class="secondary-btn">Create Account</button>
+      </form>
     </div>
   </div>
-
 </body>
 </html>
