@@ -7,6 +7,17 @@ let selectedActivityMarker = null;
 let socket = null;
 let currentUser = null;
 let selectedChatUserId = null;
+function togglePassword(inputId, button) {
+  const input = document.getElementById(inputId);
+
+  if (input.type === "password") {
+    input.type = "text";
+    button.textContent = "🙈";
+  } else {
+    input.type = "password";
+    button.textContent = "👁️";
+  }
+}
 
 function showToast(message) {
   const oldToast = document.querySelector(".toast");
