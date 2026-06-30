@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - PLEROMA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-brand">
+      <h1>Join PLEROMA</h1>
+      <p>Create your profile and start finding local sports activities.</p>
+    </div>
+
+    <div class="auth-card">
+      <h2>Create Account</h2>
+      <p class="subtitle">Set up your sports profile</p>
+
+      <form action="/register" method="POST">
+        <input type="text" name="fullName" placeholder="Full name" required>
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="email" name="email" placeholder="Email address" required>
+        <input type="text" name="favouriteSport" placeholder="Favourite sport">
+        <input type="text" name="bio" placeholder="Short bio">
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="confirmPassword" placeholder="Confirm password" required>
+
+        <p class="password-help">
+          Password must be 8+ characters with uppercase, lowercase, and a number.
+        </p>
+
+        <button type="submit">Create Account</button>
+      </form>
+
+      <p class="auth-switch">
+        Already have an account?
+        <a href="/">Login</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

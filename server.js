@@ -11,6 +11,7 @@ const db = new sqlite3.Database("/var/data/database.db");
 
 const server = http.createServer(app);
 const io = new Server(server);
+const bcrypt = require("bcryptjs");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -34,10 +35,15 @@ db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      fullName TEXT,
       username TEXT UNIQUE NOT NULL,
+      email TEXT UNIQUE,
       password TEXT NOT NULL
     )
   `);
+
+  db.run("ALTER TABLE users ADD COLUMN fullName TEXT", () => {});
+  db.run("ALTER TABLE users ADD COLUMN email TEXT", () => {});
 
   db.run(`
     CREATE TABLE IF NOT EXISTS profiles (
@@ -94,15 +100,38 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.post("/register", (req, res) => {
-  const { username, password } = req.body;
+app.post("/register", async (req, res) => {
+  const { fullName, username, email, favouriteSport, bio, password, confirmPassword } = req.body;
+
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+  if (!fullName || !username || !email || !password || !confirmPassword) {
+    return res.send("Please complete all required fields.");
+  }
+
+  if (password !== confirmPassword) {
+    return res.send("Passwords do not match.");
+  }
+
+  if (!passwordRegex.test(password)) {
+    return res.send(
+      "Password must be at least 8 characters and include uppercase, lowercase, and a number."
+    );
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   db.run(
-    "INSERT INTO users (username, password) VALUES (?, ?)",
-    [username, password],
+    "INSERT INTO users (fullName, username, email, password) VALUES (?, ?, ?, ?)",
+    [fullName, username, email, hashedPassword],
     function (err) {
-      if (err) return res.send("User already exists");
-      res.redirect("/");
+      if (err) return res.send("Username or email already exists.");
+
+      db.run(
+        "INSERT INTO profiles (userId, bio, favouriteSport) VALUES (?, ?, ?)",
+        [this.lastID, bio || "", favouriteSport || ""],
+        () => res.redirect("/")
+      );
     }
   );
 });
@@ -111,10 +140,25 @@ app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   db.get(
-    "SELECT * FROM users WHERE username = ? AND password = ?",
-    [username, password],
-    (err, user) => {
+    "SELECT * FROM users WHERE username = ? OR email = ?",
+    [username, username],
+    async (err, user) => {
       if (!user) return res.send("Invalid login details");
+
+      let isMatch = false;
+
+      if (user.password.startsWith("$2")) {
+        isMatch = await bcrypt.compare(password, user.password);
+      } else {
+        isMatch = password === user.password;
+        if (isMatch) {
+          const hashed = await bcrypt.hash(password, 10);
+          db.run("UPDATE users SET password = ? WHERE id = ?", [hashed, user.id]);
+        }
+      }
+
+      if (!isMatch) return res.send("Invalid login details");
+
       req.session.user = user;
       res.redirect("/dashboard.html");
     }
@@ -133,7 +177,7 @@ app.get("/api/profile", requireLogin, (req, res) => {
 
   db.get(
     `
-    SELECT users.username, profiles.bio, profiles.favouriteSport
+    SELECT users.username, users.fullName, users.email, profiles.bio, profiles.favouriteSport
     FROM users
     LEFT JOIN profiles ON users.id = profiles.userId
     WHERE users.id = ?
@@ -152,6 +196,8 @@ app.get("/api/profile", requireLogin, (req, res) => {
             (err, joined) => {
               res.json({
                 username: profile.username,
+                fullName: profile.fullName || "",
+                email: profile.email || "",
                 bio: profile.bio || "",
                 favouriteSport: profile.favouriteSport || "",
                 createdCount: created.createdCount,

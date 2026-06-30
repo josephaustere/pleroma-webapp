@@ -3,33 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PLEROMA</title>
+  <title>Login - PLEROMA</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="auth-page">
   <div class="auth-container">
     <div class="auth-brand">
       <h1>PLEROMA</h1>
-      <p>Find local sports activities, join players nearby, and connect instantly.</p>
+      <p>Find local sports activities, join nearby players, and connect safely.</p>
     </div>
 
     <div class="auth-card">
-      <h2>Welcome back</h2>
-      <p class="subtitle">Login to continue</p>
+      <h2>Login</h2>
+      <p class="subtitle">Welcome back to PLEROMA</p>
 
       <form action="/login" method="POST">
-        <input type="text" name="username" placeholder="Username" required>
+        <input type="text" name="username" placeholder="Username or email" required>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit">Login</button>
       </form>
 
-      <div class="divider">New to PLEROMA?</div>
-
-      <form action="/register" method="POST">
-        <input type="text" name="username" placeholder="Create username" required>
-        <input type="password" name="password" placeholder="Create password" required>
-        <button type="submit" class="secondary-btn">Create Account</button>
-      </form>
+      <p class="auth-switch">
+        Don’t have an account?
+        <a href="register.html">Create one</a>
+      </p>
     </div>
   </div>
 </body>
