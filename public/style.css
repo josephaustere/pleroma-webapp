@@ -966,3 +966,50 @@ button:hover,
   margin-top: -8px;
   margin-bottom: 12px;
 }
+.profile-hero {
+  text-align: center;
+}
+
+.profile-badge {
+  display: inline-block;
+  margin: 8px 0 18px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.18);
+  color: #86efac;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.profile-bio {
+  margin: 12px auto 20px;
+  max-width: 420px;
+  color: #dbeafe;
+}
+
+.profile-detail {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.profile-detail span {
+  display: block;
+  color: #94a3b8;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.profile-detail strong {
+  color: white;
+  font-size: 18px;
+}
+
+.profile-edit-card .subtitle {
+  margin-bottom: 18px;
+}
+
+.profile-stats {
+  grid-template-columns: repeat(2, 1fr);
+}

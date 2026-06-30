@@ -24,39 +24,44 @@
   <div class="main-content">
     <div class="page-header">
       <h1>My Profile</h1>
-      <p class="subtitle">Manage your PLEROMA identity and activity stats.</p>
+      <p class="subtitle">Manage your identity, sport interests, and activity progress.</p>
     </div>
 
     <div class="profile-layout">
-      <div class="profile-card">
+      <div class="profile-card profile-hero">
         <div class="profile-avatar">👤</div>
         <h2 id="profileUsername">Username</h2>
-        <p id="profileBioText">No bio added yet.</p>
-        <p><strong>Favourite Sport:</strong> <span id="profileSportText">Not set</span></p>
+
+        <span class="profile-badge">PLEROMA Member</span>
+
+        <p id="profileBioText" class="profile-bio">No bio added yet.</p>
+
+        <div class="profile-detail">
+          <span>Favourite Sport</span>
+          <strong id="profileSportText">Not set</strong>
+        </div>
       </div>
 
-      <div class="card">
+      <div class="card profile-edit-card">
         <h2>Edit Profile</h2>
+        <p class="subtitle">Keep your sports profile updated.</p>
+
         <input type="text" id="bioInput" placeholder="Write a short bio...">
         <input type="text" id="favouriteSportInput" placeholder="Favourite sport">
+
         <button onclick="saveProfile()">Save Profile</button>
       </div>
     </div>
 
-    <div class="stats-grid">
+    <div class="stats-grid profile-stats">
       <div class="stat-card">
-        <h3>Created</h3>
+        <h3>Activities Created</h3>
         <p id="profileCreatedCount">0</p>
       </div>
 
       <div class="stat-card">
-        <h3>Joined</h3>
+        <h3>Activities Joined</h3>
         <p id="profileJoinedCount">0</p>
-      </div>
-
-      <div class="stat-card">
-        <h3>Rating</h3>
-        <p>4.0</p>
       </div>
     </div>
   </div>
