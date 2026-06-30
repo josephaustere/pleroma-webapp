@@ -34,5 +34,20 @@
     </div>
     <div class="site-footer">PLEROMA · Sports activity platform</div>
   </div>
+  <script>
+  function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+
+    if (!input) return;
+
+    if (input.type === "password") {
+      input.type = "text";
+      button.textContent = "🙈";
+    } else {
+      input.type = "password";
+      button.textContent = "👁️";
+    }
+  }
+</script>
 </body>
 </html>
