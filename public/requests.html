@@ -4,6 +4,95 @@
   <title>Requests - PLEROMA</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <link rel="stylesheet" href="style.css?v=5">
+  <style>
+    #requests .activity-card-pro,
+    #requests .request-card {
+      display: grid !important;
+      grid-template-columns: 56px 1fr auto !important;
+      gap: 16px !important;
+      align-items: start !important;
+      margin-bottom: 18px !important;
+      padding: 22px !important;
+      border-radius: 22px !important;
+      background: rgba(15, 23, 42, 0.88) !important;
+      border: 1px solid rgba(148, 163, 184, 0.14) !important;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.26) !important;
+      border-left: none !important;
+    }
+
+    #requests .activity-icon,
+    #requests .request-icon {
+      width: 52px !important;
+      height: 52px !important;
+      border-radius: 16px !important;
+      display: grid !important;
+      place-items: center !important;
+      font-size: 26px !important;
+      background: rgba(56, 189, 248, 0.14) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+
+    #requests .activity-info h3,
+    #requests .request-main h3 {
+      margin: 0 0 10px !important;
+      color: #86efac !important;
+      font-size: 22px !important;
+    }
+
+    #requests .activity-info p,
+    #requests .request-main p {
+      margin: 6px 0 !important;
+      color: #cbd5e1 !important;
+      font-size: 14px !important;
+    }
+
+    #requests .activity-actions,
+    #requests .request-actions {
+      display: flex !important;
+      gap: 12px !important;
+      justify-content: flex-end !important;
+      align-items: center !important;
+      text-align: right !important;
+    }
+
+    #requests .activity-actions button,
+    #requests .request-actions button {
+      width: auto !important;
+    }
+
+    #requests .activity-actions button:last-child,
+    #requests .request-actions .danger-btn {
+      background: linear-gradient(135deg, #ef4444, #f97316) !important;
+      box-shadow: 0 12px 25px rgba(239, 68, 68, 0.22) !important;
+    }
+
+    .site-footer {
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(148, 163, 184, 0.16);
+      color: #94a3b8;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      #requests .activity-card-pro,
+      #requests .request-card {
+        grid-template-columns: 1fr !important;
+      }
+
+      #requests .activity-actions,
+      #requests .request-actions {
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+
+      #requests .activity-actions button,
+      #requests .request-actions button {
+        width: 100% !important;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="sidebar">
@@ -31,6 +120,8 @@
       <h2>Requests For My Activities</h2>
       <div id="requests" class="activity-list"></div>
     </div>
+
+    <div class="site-footer">PLEROMA · Sports activity platform</div>
   </div>
 
  <script src="app.js?v=5"></script>
