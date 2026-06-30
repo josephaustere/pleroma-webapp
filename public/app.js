@@ -8,6 +8,60 @@ let socket = null;
 let currentUser = null;
 let selectedChatUserId = null;
 
+function showToast(message) {
+  const oldToast = document.querySelector(".toast");
+  if (oldToast) oldToast.remove();
+
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerText = message;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
+function emptyState(title, message) {
+  return `
+    <div class="empty-state">
+      <strong>${title}</strong>
+      <span>${message}</span>
+    </div>
+  `;
+}
+
+function loadingState(message) {
+  return `
+    <div class="loading-state">
+      <strong>Loading</strong>
+      <span>${message}</span>
+    </div>
+  `;
+}
+
+function setActiveNavigation() {
+  const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+  document.querySelectorAll(".sidebar a").forEach((link) => {
+    const linkPage = link.getAttribute("href");
+    if (linkPage === currentPage) {
+      link.classList.add("active");
+    }
+  });
+}
+
+function addSiteFooter() {
+  const main = document.querySelector(".main-content");
+  if (!main || document.querySelector(".site-footer")) return;
+
+  const footer = document.createElement("div");
+  footer.className = "site-footer";
+  footer.innerText = "PLEROMA · Sports activity platform";
+  main.appendChild(footer);
+}
+
 function setDateLimits() {
   const timeInput = document.getElementById("timeInput");
   if (!timeInput) return;
@@ -49,7 +103,7 @@ function validateActivityForm() {
 }
 
 function getSportIcon(sportName) {
-  const sport = sportName.toLowerCase();
+  const sport = (sportName || "").toLowerCase();
   if (sport.includes("football")) return "⚽";
   if (sport.includes("basketball")) return "🏀";
   if (sport.includes("running") || sport.includes("run")) return "🏃";
@@ -66,6 +120,11 @@ function formatTime(time) {
   const date = new Date(time);
   if (isNaN(date)) return time;
   return date.toLocaleString();
+}
+
+function shortLocation(location) {
+  if (!location) return "Location not specified";
+  return location.split(",").slice(0, 2).join(",");
 }
 
 function getTimeRemaining(time) {
@@ -93,7 +152,7 @@ function activityCard(activity, showJoinButton = true, showManageButtons = false
 
       <div class="activity-info">
         <h3>${activity.sport} ${fullText}</h3>
-        <p>📍 ${activity.location}</p>
+        <p>📍 ${shortLocation(activity.location)}</p>
         <p>👤 Created by: ${activity.creatorName || "Unknown"}</p>
         <p>🕒 ${formatTime(activity.time)}</p>
         <p>⏳ ${getTimeRemaining(activity.time)}</p>
@@ -106,7 +165,7 @@ function activityCard(activity, showJoinButton = true, showManageButtons = false
           showManageButtons
             ? `
               <button onclick="showEditForm(${activity.id})">Edit</button>
-              <button onclick="deleteActivity(${activity.id})">Delete</button>
+              <button class="danger-btn" onclick="deleteActivity(${activity.id})">Delete</button>
             `
             : activity.isOwner
               ? `<span class="badge">Created by you</span>`
@@ -133,29 +192,33 @@ function activityCard(activity, showJoinButton = true, showManageButtons = false
 
 function requestCard(request) {
   const icon = getSportIcon(request.sport);
+  const statusClass = `status-${request.status}`;
 
   return `
-    <div class="activity-card-pro">
-      <div class="activity-icon">${icon}</div>
+    <div class="request-card">
+      <div class="request-card-top">
+        <div class="request-icon">${icon}</div>
 
-      <div class="activity-info">
-        <h3>${request.sport}</h3>
-        <p>📍 ${request.location}</p>
-        <p>🕒 ${formatTime(request.time)}</p>
-        <p>🙋 Requested by: ${request.username}</p>
-        <p>📌 Status: ${request.status}</p>
+        <div class="request-main">
+          <h3>${request.sport}</h3>
+          <p>📍 ${shortLocation(request.location)}</p>
+          <p>🕒 ${formatTime(request.time)}</p>
+          <p>🙋 Requested by: ${request.username}</p>
+        </div>
+
+        <span class="status-pill ${statusClass}">${request.status}</span>
       </div>
 
-      <div class="activity-actions">
-        ${
-          request.status === "pending"
-            ? `
+      ${
+        request.status === "pending"
+          ? `
+            <div class="request-actions">
               <button onclick="updateRequest(${request.id}, 'approved')">Approve</button>
-              <button onclick="updateRequest(${request.id}, 'rejected')">Reject</button>
-            `
-            : `<span class="badge">Decision completed</span>`
-        }
-      </div>
+              <button class="danger-btn" onclick="updateRequest(${request.id}, 'rejected')">Reject</button>
+            </div>
+          `
+          : `<div class="request-complete">Decision completed</div>`
+      }
     </div>
   `;
 }
@@ -182,7 +245,7 @@ async function updateActivity(id) {
     body: JSON.stringify({ sport, location, time, maxPlayers }),
   });
 
-  alert(await response.text());
+  showToast(await response.text());
   loadActivities();
 }
 
@@ -190,7 +253,7 @@ async function deleteActivity(id) {
   if (!confirm("Are you sure you want to delete this activity?")) return;
 
   const response = await fetch(`/api/activities/${id}`, { method: "DELETE" });
-  alert(await response.text());
+  showToast(await response.text());
   loadActivities();
   loadDashboardStats();
   loadProfile();
@@ -316,6 +379,9 @@ async function loadActivities() {
 
   if (!container && !myContainer && !map) return;
 
+  if (container) container.innerHTML = loadingState("Finding nearby activities...");
+  if (myContainer) myContainer.innerHTML = loadingState("Loading your activities...");
+
   const response = await fetch("/api/activities");
   const activities = await response.json();
 
@@ -355,7 +421,10 @@ async function loadActivities() {
     }
 
     if (filteredActivities.length === 0) {
-      container.innerHTML = "<p>No activities found.</p>";
+      container.innerHTML = emptyState(
+        "No activities found",
+        "Try changing your filters or create the first activity nearby."
+      );
     } else {
       filteredActivities.forEach((activity) => {
         container.innerHTML += activityCard(activity, true, false);
@@ -369,7 +438,10 @@ async function loadActivities() {
     const myActivities = activities.filter((activity) => activity.isOwner);
 
     if (myActivities.length === 0) {
-      myContainer.innerHTML = "<p>You have not created any activities yet.</p>";
+      myContainer.innerHTML = emptyState(
+        "No activities created yet",
+        "Create your first sports activity and it will appear here."
+      );
     } else {
       myActivities.forEach((activity) => {
         myContainer.innerHTML += activityCard(activity, false, true);
@@ -396,7 +468,7 @@ async function loadActivities() {
           .bindPopup(`
             <strong>${getSportIcon(activity.sport)} ${activity.sport}</strong><br>
             ${activity.joinedCount || 0}/${activity.maxPlayers} joined<br>
-            ${activity.location}<br>
+            ${shortLocation(activity.location)}<br>
             ${formatTime(activity.time)}
           `);
 
@@ -408,7 +480,7 @@ async function loadActivities() {
 
 async function requestJoin(activityId) {
   const response = await fetch(`/api/request/${activityId}`, { method: "POST" });
-  alert(await response.text());
+ showToast(await response.text());
   loadActivities();
   loadRequests();
 }
@@ -417,13 +489,18 @@ async function loadRequests() {
   const container = document.getElementById("requests");
   if (!container) return;
 
+  container.innerHTML = loadingState("Checking join requests...");
+
   const response = await fetch("/api/requests");
   const requests = await response.json();
 
   container.innerHTML = "";
 
   if (requests.length === 0) {
-    container.innerHTML = "<p>No join requests yet.</p>";
+    container.innerHTML = emptyState(
+      "No join requests yet",
+      "When someone asks to join your activity, their request will appear here."
+    );
     return;
   }
 
@@ -437,7 +514,7 @@ async function updateRequest(requestId, status) {
     method: "POST",
   });
 
-  alert(await response.text());
+  showToast(await response.text());
   loadRequests();
   loadActivities();
   loadDashboardStats();
@@ -511,14 +588,17 @@ async function initLiveChat() {
   const userList = document.getElementById("userList");
   if (!userList) return;
 
+  userList.innerHTML = loadingState("Loading connected users...");
+
   const response = await fetch("/api/current-user");
   currentUser = await response.json();
 
   socket = io();
   socket.emit("joinChat", currentUser.id);
+
   socket.on("messageError", (message) => {
-  alert(message);
-});
+    alert(message);
+  });
 
   socket.on("newMessage", (message) => {
     if (
@@ -543,7 +623,10 @@ async function loadUsers() {
   userList.innerHTML = "";
 
   if (users.length === 0) {
-    userList.innerHTML = "<p>No other users found.</p>";
+    userList.innerHTML = emptyState(
+      "No connected users yet",
+      "You can chat after sharing an approved activity with another user."
+    );
     return;
   }
 
@@ -587,7 +670,7 @@ function sendLiveMessage() {
   const message = input.value.trim();
 
   if (!selectedChatUserId) {
-    alert("Please select a user first.");
+    showToast("Please select a user first.");
     return;
   }
 
@@ -612,6 +695,11 @@ async function loadProfile() {
 
   const response = await fetch("/api/profile");
   const profile = await response.json();
+  document.getElementById("profileFullName").innerText =
+  profile.fullName || profile.username;
+
+document.getElementById("profileEmail").innerText =
+  profile.email || "Email not set";
 
   document.getElementById("profileUsername").innerText = profile.username;
   document.getElementById("profileBioText").innerText =
@@ -637,12 +725,13 @@ async function saveProfile() {
     },
     body: JSON.stringify({ bio, favouriteSport }),
   });
-
-  alert(await response.text());
+showToast(await response.text());
   loadProfile();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  setActiveNavigation();
+  addSiteFooter();
   setDateLimits();
   initMap();
   loadActivities();
