@@ -250,7 +250,34 @@ button:hover,
 
 .activity,
 .activity-card-pro {
-  border-left: 5px solid var(--green);
+  .request-card {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 18px;
+  transition: 0.25s;
+}
+
+.request-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.request-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.status-pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+  background: rgba(56, 189, 248, 0.15);
+}
 }
 
 .activity {
@@ -885,4 +912,39 @@ button:hover,
 
 .alert-card p {
   color: var(--white-soft);
+}
+.request-card {
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+}
+
+.request-card h3 {
+  margin-bottom: 16px;
+  color: #86efac;
+  font-size: 24px;
+}
+
+.request-card p {
+  margin: 8px 0;
+}
+
+.request-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.status-pill {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.15);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
 }
